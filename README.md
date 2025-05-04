@@ -43,12 +43,12 @@ MindMate/
 git clone https://github.com/Sanjana11092004/MindMate.git
 cd MindMate/backend
 
-### ✅ Example API Test – Positive Sentiment
+### ✅ Positive Sentiment Response
 
-![Positive Test](screenshots/postman-positive.png)
+![Positive Screenshot](screenshots/postman-positive.png)
 
 ---
 
-### ❌ Example API Test – Negative Sentiment
+### ❌ Negative Sentiment Response
 
-![Negative Test](screenshots/postman-negative.png)
+![Negative Screenshot](screenshots/postman-negative.png)
