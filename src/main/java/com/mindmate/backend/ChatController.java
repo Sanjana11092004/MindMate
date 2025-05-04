@@ -2,6 +2,7 @@ package com.mindmate.backend;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
@@ -13,6 +14,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
+     @Value("${huggingface.api.key}")
+     private String huggingFaceApiKey;
+
 
     @PostMapping
     public ResponseEntity<?> chat(@RequestBody Map<String, String> payload) {
@@ -36,7 +40,7 @@ public class ChatController {
             String body = "{\"inputs\": \"" + message + "\"}";
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"))
-                    // .header("Authorization", "Bearer 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")
+                    .header("Authorization", "Bearer " + huggingFaceApiKey)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
