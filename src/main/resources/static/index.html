@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MindMate - Your Chat Companion</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 95%;
+      max-width: 600px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #f9fafb;
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 12px 18px;
+      border-radius: 24px;
+      font-size: 15px;
+      line-height: 1.5;
+      animation: slideIn 0.3s ease-in-out;
+      position: relative;
+    }
+
+    .user {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #e6f0ff;
+      color: #333;
+      align-self: flex-start;
+    }
+
+    .sentiment {
+      font-size: 0.75em;
+      margin-top: 4px;
+      color: #666;
+    }
+
+    form {
+      display: flex;
+      padding: 16px;
+      border-top: 1px solid #e1e1e1;
+      background: white;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 24px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 15px;
+    }
+
+    button {
+      margin-left: 10px;
+      padding: 12px 20px;
+      border-radius: 24px;
+      border: none;
+      background: #2575fc;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #1a5ed8;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="messages" id="messages"></div>
+  <form id="chat-form">
+    <input type="text" id="message-input" placeholder="How are you feeling today?" required />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+  const messagesDiv = document.getElementById('messages');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('message-input');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    addMessage(userMessage, 'user');
+    input.value = '';
+
+    try {
+      const response = await fetch('http://localhost:8080/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+      const data = await response.json();
+
+      const botText = `${data.reply}`;
+      const sentimentTag = `(Sentiment: ${data.sentiment})`;
+      addMessage(`${botText}\n${sentimentTag}`, 'bot');
+    } catch (err) {
+      addMessage('⚠️ Unable to connect to MindMate right now.', 'bot');
+    }
+  });
+
+  function addMessage(text, sender) {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble ' + sender;
+    bubble.textContent = text;
+    messagesDiv.appendChild(bubble);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
