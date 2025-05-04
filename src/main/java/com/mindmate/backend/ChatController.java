@@ -36,7 +36,7 @@ public class ChatController {
             String body = "{\"inputs\": \"" + message + "\"}";
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english"))
-                    .header("Authorization", "Bearer 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")
+                    // .header("Authorization", "Bearer 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")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
