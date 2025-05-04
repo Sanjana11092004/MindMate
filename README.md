@@ -43,12 +43,4 @@ MindMate/
 git clone https://github.com/Sanjana11092004/MindMate.git
 cd MindMate/backend
 
-### ✅ Positive Sentiment Response
 
-![Positive Screenshot](screenshots/postman-positive.png)
-
----
-
-### ❌ Negative Sentiment Response
-
-![Negative Screenshot](screenshots/postman-negative.png)
