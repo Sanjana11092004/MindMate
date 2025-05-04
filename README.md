@@ -42,3 +42,13 @@ MindMate/
 ```bash
 git clone https://github.com/Sanjana11092004/MindMate.git
 cd MindMate/backend
+
+### ✅ Example API Test – Positive Sentiment
+
+![Positive Test](screenshots/postman-positive.png)
+
+---
+
+### ❌ Example API Test – Negative Sentiment
+
+![Negative Test](screenshots/postman-negative.png)
